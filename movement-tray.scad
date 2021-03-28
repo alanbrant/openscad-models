@@ -1,6 +1,6 @@
 // Alan Brant 2021
 
-$fn=200;
+$fn=100;
 
 // matrix for number of models and position per row.
 // 1 for model holder in position and 0 for none.
@@ -40,6 +40,6 @@ module base_cylinder(diameter) {
 // Difference creates cylinder and subtracts a smaller cylinder
 // to create hole to hold model base.
 difference(){
-    color("blue") base_cylinder(baseSize + rimWidth);
+    color("blue") hull() base_cylinder(baseSize + rimWidth);
     color("red") translate([0, 0, floorHeight]) base_cylinder(baseSize) ;
 }
