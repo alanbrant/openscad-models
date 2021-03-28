@@ -43,12 +43,6 @@ module base_cylinder(diameter) {
     }
 }
 
-function doHull() = (
-    (wrap) ?
-        hull()
-    : hull()
-);
-
 // Difference creates cylinder and subtracts a smaller cylinder
 // to create hole to hold model base.
 difference(){
