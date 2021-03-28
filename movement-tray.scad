@@ -19,6 +19,12 @@ floorHeight = 1.5;
 rimHeight = 1.5;
 rimWidth = 2;
 
+wrap = true;
+
+module wrapped_base_cylinder(diameter) {
+    hull() base_cylinder(diameter);
+}
+
 module base_cylinder(diameter) {
     for(rowNumber = [0:len(modelMatrix)-1]) {
         // Create cylinders slightly bigger than model base.
@@ -37,9 +43,23 @@ module base_cylinder(diameter) {
     }
 }
 
+function doHull() = (
+    (wrap) ?
+        hull()
+    : hull()
+);
+
 // Difference creates cylinder and subtracts a smaller cylinder
 // to create hole to hold model base.
 difference(){
-    color("blue") hull() base_cylinder(baseSize + rimWidth);
+    // outer object
+    color("blue") 
+    if(wrap) {
+        wrapped_base_cylinder(baseSize + rimWidth);
+    }
+    else {
+        base_cylinder(baseSize + rimWidth);
+    }
+    // inner object to subtract
     color("red") translate([0, 0, floorHeight]) base_cylinder(baseSize) ;
 }
