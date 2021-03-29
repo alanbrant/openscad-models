@@ -6,7 +6,6 @@ $fn=100;
 // 1 for model holder in position and 0 for none.
 modelMatrix = [
 [1,1,1,1,1],
-[1,1,1,1,1],
 [1,1,1,1,1]];
 
 // base size of model
@@ -21,13 +20,14 @@ rimHeight = 1.5;
 rimWidth = 2;
 
 wrap = true;
-stagger = false;
+stagger = true;
 
 module wrapped_base_cylinder(diameter) {
     hull() base_cylinder(diameter);
 }
 
 module base_cylinder(diameter) {
+    radius = diameter / 2;
     for(rowNumber = [0:len(modelMatrix)-1]) {
         // Create cylinders slightly bigger than model base.
         // Loop through number of models in row.
@@ -36,8 +36,7 @@ module base_cylinder(diameter) {
             if(modelMatrix[rowNumber][colNumber] > 0) {
                 // create cylinder for the row
                 x_delta = stagger && rowNumber % 2 == 1 ? diameter / 2 : 0;
-                // todo: calculate how much to move the y-axis when staggered
-                y_delta = stagger ? 0 : 0;
+                y_delta = stagger ? rowNumber * (diameter - sqrt(4 * pow(radius, 2) - pow(radius, 2))) : 0;
                 echo(x_delta= x_delta);
                 //y_delta = stagger ? diameter / 2 : 0;
                 x = colNumber * (baseSize + rimWidth) - colNumber * rimWidth + 20 - x_delta;
